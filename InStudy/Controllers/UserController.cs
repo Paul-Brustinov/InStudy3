@@ -7,9 +7,9 @@ using System.Security.Cryptography.Pkcs;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using RegistrationAndLogin.Models;
+using InStudy.Models;
 
-namespace RegistrationAndLogin.Controllers
+namespace InStudy.Controllers
 {
     public class UserController : Controller
     {

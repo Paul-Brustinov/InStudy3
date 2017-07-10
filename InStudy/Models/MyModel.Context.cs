@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RegistrationAndLogin.Models
+namespace InStudy.Models
 {
     using System;
     using System.Data.Entity;

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace RegistrationAndLogin.Models
+namespace InStudy.Models
 {
     public class UserLogin
     {
