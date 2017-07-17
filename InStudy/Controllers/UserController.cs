@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*!
+ *\file User Conroller file
+ *
+ *  Control User processing
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,18 +17,25 @@ using InStudy.Models;
 
 namespace InStudy.Controllers
 {
+
+    /// <summary>
+    ///     User Controller for support users operations
+    /// </summary>
     public class UserController : Controller
     {
 
-        //Registration Action
-
+        /*!
+         * Registration GET action
+         */
         [HttpGet]
         public ActionResult Registration()
         {
             return View();
         }
 
-        //Registration POST action
+        /*!
+         * Registration POST action
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Registration([Bind(Exclude = "IsEmailVeryfied,ActivationCode")] User user)
@@ -76,7 +89,9 @@ namespace InStudy.Controllers
             return View(user);
         }
 
-        //Vetify Account
+        /*!
+         * Vetify Account 
+         */
         [HttpGet]
         public ActionResult VerifyAccount(string id)
         {
@@ -111,52 +126,44 @@ namespace InStudy.Controllers
             return View();
         }
 
-        //Login Post
+        /*!
+         * Process sended login data
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserLogin login, string returnUrl="")
         {
-            string message = "";
-            using (MyDatabaseEntities dc = new MyDatabaseEntities())
+            using (var dc = new MyDatabaseEntities())
             {
                 var user = dc.Users.FirstOrDefault(u => u.EmailID == login.EmailID);
                 if (user != null)
                 {
-                    if (string.Compare(Crypto.Hash(login.Password), user.Password) == 0)
+                    if (string.CompareOrdinal(Crypto.Hash(login.Password), user.Password) == 0)
                     {
                         int timeout = login.RememberMe ? 525600 : 20; // 525600 == year
                         var ticket = new FormsAuthenticationTicket(login.EmailID, login.RememberMe, timeout);
                         string encryped = FormsAuthentication.Encrypt(ticket);
-                        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryped);
-                        cookie.Expires = DateTime.Now.AddMinutes(timeout);
-                        cookie.HttpOnly = true;
+                        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryped)
+                        {
+                            Expires = DateTime.Now.AddMinutes(timeout),
+                            HttpOnly = true
+                        };
                         Response.Cookies.Add(cookie);
 
-                        if (Url.IsLocalUrl(returnUrl))
-                        {
-                            return Redirect(returnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                    }
-                    else
-                    {
-                        message = "Invalid credential provided";
-                    }
+                        if (Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
+                        return RedirectToAction("Index", "Home");
+                     }
                 }
-                else
-                {
-                    message = "Invalid credential provided";
-                };
-            }
-            ViewBag.Message = message;
 
+            }
+            ViewBag.Message = "Invalid credential provided";
             return View();
         }
-
-        //Logout
+        
+        /*!
+         *  Processing Logout
+         * \return redurect to Action Login
+         */
         [Authorize]
         [HttpPost]
         public ActionResult Logout()
@@ -166,6 +173,11 @@ namespace InStudy.Controllers
         }
 
 
+        /*!
+            *Method check if email exists in database
+            * \params[in] EmailID - email
+            * \returns true if email exists or false otherwise
+        */
 
         [NonAction]
         public bool IsEmailExists(String EmailID)
@@ -176,6 +188,15 @@ namespace InStudy.Controllers
             }
         }
 
+
+        //TODO: Move SendVerificationLinkEmail to Model
+        //TODO: Move email account data to a separate settings file
+        /*!
+         * Method send email with vetification code to activate User account
+         * \param[in] emailID - users email
+         * \param[in] activationCode - verification code
+         * \return void
+         */
         [NonAction]
         public void SendVerificationLinkEmail(string emailID, string activationCode)
         {

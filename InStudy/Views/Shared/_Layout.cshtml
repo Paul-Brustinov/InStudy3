@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using InStudy.Controllers
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -17,7 +18,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("In study ERP-System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" }) ||
+                @Html.ActionLink("Registration", "Registration", "User", new { area = "" }, new { @class = "navbar-brand" }) ||
+                @Html.ActionLink("Login", "Login", "User", new { area = "" }, new { @class = "navbar-brand" }) ||
+                
+                using (Html.BeginForm("Logout", "User", FormMethod.Post, new {id="logoutForm"}))
+                {
+                <a href="javascript:document.getElementById('logoutForm').submit()" class="navbar-brand">Logout</a>
+                }
+
+                @*@Html.ActionLink("Logout", "Logout", "User", new { area = "" }, new { @class = "navbar-brand" }) ||*@
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\_WORK\_STEP\C#\InStudy3\RegistrationAndLogin\Models\MyModel.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\_WORK\_STEP\ASP.net\InStudy3\InStudy\Models\MyModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

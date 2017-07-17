@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*!
+*\file User Login file
+* 
+*\brief UserLogin class to process Login page
+
+*/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
