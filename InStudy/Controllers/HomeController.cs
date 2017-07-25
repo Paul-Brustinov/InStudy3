@@ -14,9 +14,10 @@ namespace InStudy.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        [Authorize]
+        //[Authorize]
         public ActionResult Index()
         {
+
             return View();
         }
     }

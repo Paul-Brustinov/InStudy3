@@ -8,6 +8,9 @@
 
 Welcome @HttpContext.Current.User.Identity.Name
 
+@Html.Partial("_Registration", new User())
+
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("Logout", "User", FormMethod.Post, new {id="logoutForm"}))

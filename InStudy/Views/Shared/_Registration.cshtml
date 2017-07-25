@@ -18,10 +18,18 @@
             var dateBirth = $('#DateBirth').val();
             var password = $('#RegistrationPassword').val();
             var confirmPassword = $('#ConfirmPassword').val();
+            var a = {
+                FirstName: firstName,
+                LastName: lastName,
+                EmailID: emailId,
+                DateBirth: dateBirth,
+                Password: password,
+                ConfirmPassword: confirmPassword
+            }
 
             $.ajax({
                 type: "POST",
-                url: "registration",
+                url: @Url.Action("Registration", "User"),
                 data: {
                     FirstName: firstName,
                     LastName: lastName,
