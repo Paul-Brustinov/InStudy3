@@ -1,4 +1,42 @@
 ﻿@model InStudy.Models.User
+    
+
+
+<script src="/Scripts/jquery-1.10.2.min.js"></script>
+<script src="/Scripts/bootstrap.min.js"></script>
+
+<script src="/Scripts/jquery.validate.min.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+    $(document).ready(function (){
+        $('#Registration').click(function(e) {
+            var firstName = $('#FirstName').val();
+            var lastName = $('#LastName').val();
+            var emailId = $('#EmailID').val();
+            var dateBirth = $('#DateBirth').val();
+            var password = $('#RegistrationPassword').val();
+            var confirmPassword = $('#ConfirmPassword').val();
+
+            $.ajax({
+                type: "POST",
+                url: "registration",
+                data: {
+                    FirstName: firstName,
+                    LastName: lastName,
+                    EmailID: emailId,
+                    DateBirth: dateBirth,
+                    Password: password,
+                    ConfirmPassword: confirmPassword
+                },
+                success: function(data) {},
+                error: function() { alert("Something went wrong in controller.") }
+            });
+        });
+    })
+</script>
+
 
 @using (Html.BeginForm())
 {
@@ -7,7 +45,7 @@
     using (Html.BeginForm())
     {
       //  @Html.AntiForgeryToken()
-        <h2>Registration</h2>
+        <h2>_Registration</h2>
         <div class="form-horizontal">
             <hr/>
             @Html.ValidationSummary(true, "", new {@class = "text-danger"})
@@ -44,11 +82,12 @@
                     @Html.ValidationMessageFor(model => model.DateBirth, "", new {@class = "text-danger"})
                 </div>
             </div>
-
+            
+            @* Password *@
             <div class="form-group">
                 @Html.LabelFor(model => model.Password, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Password, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.EditorFor(model => model.Password, new {htmlAttributes = new {@class = "form-control", id = "RegistrationPassword"}})
                     @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
                 </div>
             </div>
@@ -64,24 +103,28 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
+                    <button id="Registration" >Create</button>
                     @*<input type="submit" value="Create" class="btn btn-default"/>*@
                     @*                  @Html.ActionLink("Save", "Registration", "User", null, new { @class = "btn btn-default" })*@
-                    @Ajax.ActionLink("Registration", "Registration", "User", new AjaxOptions { HttpMethod = "POST" }, null, new { @class = "btn btn-default" })    
+                    @*@Ajax.ActionLink("Registration", "Registration", "User", new AjaxOptions { HttpMethod = "POST" }, null, new { @class = "btn btn-default" })*@
+                </div>
                 </div>
             </div>
-        </div>
 
-        if (ViewBag.Message != null)
-        {
-            <div class="alert alert-danger">
-                <strong> Error!</strong> @ViewBag.Message
-            </div>
+            if (ViewBag.Message != null)
+            {
+                <div class="alert alert-danger">
+                    <strong> Error!</strong> @ViewBag.Message
+                </div>
+            }
+
         }
-
     }
-}
 
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+
+
